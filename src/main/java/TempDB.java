@@ -35,17 +35,6 @@ public class TempDB {
             query = "INSERT INTO temp (city, temp) VALUES('" + city + "', '" + temp + "');";
             statement.executeUpdate(query);
 
-//            //Просмотр данных в таблице
-//            query = "SELECT * FROM temp";
-//            ResultSet rs = statement.executeQuery(query);
-//
-//            while (rs.next()) {
-//                System.out.printf("%d) В городе %s температура %s\u00B0С\n",
-//                        rs.getInt("id"),
-//                        rs.getString("city"),
-//                        rs.getString("temp"));
-//            }
-            
         } catch (SQLException e) {
             errorMsg = "Ошибка! Что-то пошло не так при работе с SQLite: " + e.getMessage();
             return false;
