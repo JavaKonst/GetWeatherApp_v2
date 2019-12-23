@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String city = "Москва";
+        String cityFromConsole = "abc";
+        String cityFromQuery;
         String[] lon_lat;
-        String temp;
+        String tempFromQuery;
         int numService;
         String isSave;
         String isStop = "да";
@@ -15,19 +16,20 @@ public class Main {
 
         while (isStop.equalsIgnoreCase("да")) {
             System.out.print("Введите город: ");
-            if (scanner.hasNext()) city = scanner.nextLine();
+            while (scanner.hasNext()) {
+                cityFromConsole = scanner.nextLine().trim();
+                if (!cityFromConsole.equals("")) break;
+            }
 
             LatLonCity latLonCity = new LatLonCity();
-            lon_lat = latLonCity.getLatLon(city);
+            lon_lat = latLonCity.getLatLon(cityFromConsole);
             if (lon_lat[0].contains("Ошибка")) {
                 System.out.println(lon_lat[0]);
                 System.out.print("\nПродолжить (да/нет)?  --> ");
                 if (scanner.hasNext()) isStop = scanner.nextLine();
                 System.out.println("\n------------------\n\n");
                 continue;
-            }
-
-            city = latLonCity.getFullCityName();
+            } else cityFromQuery = latLonCity.getFullCityName();
 
             System.out.print("Выберите погодный сервис:" +
                     "\n\t1) Yandex.Weather" +
@@ -37,24 +39,24 @@ public class Main {
 
             String in = "";
             while (true) {
-                if (scanner.hasNext()) in = scanner.nextLine();
+                if (scanner.hasNext()) in = scanner.nextLine().trim();
                 if (in.equals("1") || in.equals("2") || in.equals("3")) break;
                 else System.out.print("Ошибка! Повторите свой выбор:\n--> ");
             }
 
             numService = Integer.parseInt(in);
 
-            temp = new WeatherServices().getCityTemp(lon_lat[1], lon_lat[0], numService);
+            tempFromQuery = new WeatherServices().getCityTemp(lon_lat[1], lon_lat[0], numService);
 
-            if (temp.contains("Ошибка")) {
-                System.out.println(temp);
+            if (tempFromQuery.contains("Ошибка")) {
+                System.out.println(tempFromQuery);
                 System.out.print("\nПродолжить (да/нет)?  --> ");
                 if (scanner.hasNext()) isStop = scanner.nextLine();
                 System.out.println("\n------------------\n\n");
                 continue;
             }
 
-            isSave = new TempDB().saveTemp(city, temp);
+            isSave = new TempDB().saveTemp(cityFromQuery, tempFromQuery);
 
             if (isSave.contains("Ошибка")) {
                 System.out.println(isSave);
@@ -63,7 +65,7 @@ public class Main {
                 System.out.println("\n------------------\n\n");
                 continue;
             }
-            System.out.println("ОТВЕТ: Температура в городе " + city + ": " + temp + "\n");
+            System.out.println("ОТВЕТ: Температура в городе " + cityFromQuery + ": " + tempFromQuery + "\n");
 
             System.out.print("Продолжить (да/нет)?  --> ");
             if (scanner.hasNext()) isStop = scanner.nextLine();
