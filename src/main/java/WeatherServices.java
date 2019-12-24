@@ -1,4 +1,3 @@
-
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -153,11 +152,11 @@ public class WeatherServices {
         String accessKey = "f5838bdccfef720169d8613fe0f8d0ad";
 
         //Формирование запроса: координаты города (долгота и широта), ключ доступа, формат вывода xml, единицы Градусы, русский язык
-        HttpGet request = new HttpGet(weatherURL + "?lat=" + lat + "&lon=" + lon + "&APPID=" + accessKey + "&mode=xml&units=metric&lang=ru");
+        HttpGet request = new HttpGet(weatherURL + "?lat=" + lat + "&lon=" + lon + "&APPID=" + accessKey + "&units=metric&lang=ru");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             if (response.getStatusLine().getStatusCode() != 200) {
-                errorMsg = "Ошибка! Сервис OpenWeather не отвечает.";
+                errorMsg = "Ошибка! Сервис OpenWeather выдал код ответа: " + response.getStatusLine().getStatusCode() + ".";
                 return false;
             }
             HttpEntity entity = response.getEntity();
@@ -165,11 +164,14 @@ public class WeatherServices {
             //Обработка полученных данных
             if (entity != null) {
                 String data = EntityUtils.toString(entity);
-                data = data.substring(data.indexOf("temperature value"), data.indexOf("min"));
-                data = data.substring(data.indexOf("\"") + 1, data.lastIndexOf("\""));
-                int temp = (int) Double.parseDouble(data);
+
+                JSONObject object = new JSONObject(data);
+                JSONObject main = object.getJSONObject("main");
+                int temp = main.getInt("temp");
+
                 if (temp > 0) cityTemp = "+" + temp + "\u00B0C";
                 else cityTemp = temp + "\u00B0C";
+
             } else {
                 errorMsg = "Ошибка! Сервис OpenWeather выдал пустые данные.";
                 return false;
