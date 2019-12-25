@@ -151,7 +151,7 @@ public class WeatherServices {
         String weatherURL = "http://api.openweathermap.org/data/2.5/weather";
         String accessKey = "f5838bdccfef720169d8613fe0f8d0ad";
 
-        //Формирование запроса: координаты города (долгота и широта), ключ доступа, формат вывода xml, единицы Градусы, русский язык
+        //Формирование запроса: координаты города (долгота и широта), ключ доступа, формат вывода json, единицы Градусы, русский язык
         HttpGet request = new HttpGet(weatherURL + "?lat=" + lat + "&lon=" + lon + "&APPID=" + accessKey + "&units=metric&lang=ru");
 
         try (CloseableHttpResponse response = httpClient.execute(request)) {
