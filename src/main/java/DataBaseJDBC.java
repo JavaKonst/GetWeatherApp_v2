@@ -2,7 +2,7 @@
 
 import java.sql.*;
 
-public class TempDB {
+public class DataBaseJDBC {
     private String city;
     private String temp;
     private String errorMsg;
@@ -17,7 +17,8 @@ public class TempDB {
     }
     
     private boolean dbSQLite() {
-        String url = "jdbc:sqlite:dataOfWeather.db";         //Создание локальной базы данных dataOfWeather.db
+        //Локальная база данных dataOfWeather.db
+        String url = "jdbc:sqlite:dataOfWeather.db";
         String query;
         
         try (Connection connection = DriverManager.getConnection(url);

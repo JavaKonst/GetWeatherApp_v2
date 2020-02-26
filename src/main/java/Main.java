@@ -56,7 +56,7 @@ public class Main {
                 continue;
             }
 
-            isSave = new TempDB().saveTemp(cityFromQuery, tempFromQuery);
+            isSave = new DataBaseJDBC().saveTemp(cityFromQuery, tempFromQuery);
 
             if (isSave.contains("Ошибка")) {
                 System.out.println(isSave);
