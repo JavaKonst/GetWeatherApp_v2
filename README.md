@@ -1,5 +1,5 @@
 # GetWeatherApp v2
-<p>Погода в городе (weatherAPI, SQLite, JDBC, JSON и пр.)<p>
+<p>Погода в городе (weatherAPI, SQLite, JDBC, JSON и пр.)</p>
 
 <p><h6><i>Консольная программа, выдает по введенному городу текущую температуру окр.воздуха.
 Используются погодные сервисы YandexWeather (пробный период, может быть не доступен), AccuWeather, OpenWeather.
